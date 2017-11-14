@@ -1,11 +1,3 @@
-// Each button has a sound associated with it
-// Randomize button color
-// Sound when you press a button
-// Step counter
-// Restart the game and the counter
-// Use a strict button so if you mess up, counter resets
-// If user hits 20 steps, do a win notifcation
-
 const green = document.getElementById('green').id;
 const red = document.getElementById('red').id;
 const blue = document.getElementById('blue').id;
@@ -15,6 +7,7 @@ let color;
 let counter = document.getElementById('counter').innerHTML;
 let moves = [];
 let nextMove;
+let strict = false;
 document.getElementById('resetButton').style.display = 'none';
 
 let selectColor = (event) => {
@@ -30,28 +23,25 @@ document.getElementById(yellow).addEventListener('click', selectColor, false);
 let startGame = () => {
   document.getElementById('startButton').style.display = 'none';
   document.getElementById('resetButton').style.display = '';
-  console.log(counter);
+  document.getElementById('strictButton').disabled = true;
   nextMove = buttons[Math.floor(Math.random() * buttons.length)];
   moves.push(nextMove);
-  console.log('This is the starting off ' + moves);
-  console.log('Moves: ' + moves + 'Color: ' + color);
-
 };
 
 let playGame = () => {
   if (color === moves[counter]) {
       nextMove = buttons[Math.floor(Math.random() * buttons.length)];
       moves.push(nextMove);
-      console.log(moves);
       counter++;
       document.getElementById('counter').innerHTML++;
-    document.getElementById('message').innerHTML = "";
-
-    }
-  else {
-    color = "";
-    document.getElementById('message').innerHTML = "Wrong, try again!"
-    console.log('wrong');
+      document.getElementById('message').innerHTML = '';
+  } else if (strict) {
+      counter = 0;
+      document.getElementById('counter').innerHTML = 0;
+      document.getElementById('message').innerHTML = 'You lost. Please re-start.';
+  } else {
+      color = '';
+      document.getElementById('message').innerHTML = 'Wrong, try again!';
   }
 }
 
@@ -62,4 +52,14 @@ let resetGame = () => {
   document.getElementById('message').innerHTML = '';
   document.getElementById('startButton').style.display = '';
   document.getElementById('resetButton').style.display = 'none';
+  document.getElementById('strictButton').disabled = false;
+};
+
+let startStrict = () => {
+  strict = true;
+  document.getElementById('startButton').style.display = 'none';
+  document.getElementById('resetButton').style.display = '';
+  document.getElementById('strictButton').disabled = true;
+  nextMove = buttons[Math.floor(Math.random() * buttons.length)];
+  moves.push(nextMove);
 };
