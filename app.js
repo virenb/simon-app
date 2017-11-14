@@ -8,11 +8,15 @@ let counter = document.getElementById('counter').innerHTML;
 let moves = [];
 let nextMove;
 let strict = false;
+let sound;
 document.getElementById('resetButton').style.display = 'none';
 
 let selectColor = (event) => {
   color = event.target.id;
+  sound = document.getElementById(color + 'Audio');
+  sound.play();
   playGame();
+  console.log('Selected color: ' + color);
 };
 
 document.getElementById(green).addEventListener('click', selectColor, false);
@@ -26,15 +30,23 @@ let startGame = () => {
   document.getElementById('strictButton').disabled = true;
   nextMove = buttons[Math.floor(Math.random() * buttons.length)];
   moves.push(nextMove);
+  sound = document.getElementById(nextMove + 'Audio');
+  sound.play();
+  console.log(moves);
 };
 
 let playGame = () => {
   if (color === moves[counter]) {
       nextMove = buttons[Math.floor(Math.random() * buttons.length)];
       moves.push(nextMove);
+      setTimeout(function() {
+        sound = document.getElementById(nextMove + 'Audio');
+        sound.play();
+      }, 1500);
       counter++;
       document.getElementById('counter').innerHTML++;
       document.getElementById('message').innerHTML = '';
+      console.log('Updated moves: ' + moves);
   } else if (strict) {
       counter = 0;
       document.getElementById('counter').innerHTML = 0;
@@ -42,8 +54,11 @@ let playGame = () => {
   } else {
       color = '';
       document.getElementById('message').innerHTML = 'Wrong, try again!';
+    setTimeout(function () {
+      sound.play();
+    }, 1500);
   }
-}
+};
 
 let resetGame = () => {
   moves = [];
@@ -62,4 +77,7 @@ let startStrict = () => {
   document.getElementById('strictButton').disabled = true;
   nextMove = buttons[Math.floor(Math.random() * buttons.length)];
   moves.push(nextMove);
+  sound = document.getElementById(nextMove + 'Audio');
+  sound.play();
+  console.log(moves);
 };
