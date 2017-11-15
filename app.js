@@ -30,6 +30,12 @@ let startGame = () => {
   document.getElementById('strictButton').disabled = true;
   nextMove = buttons[Math.floor(Math.random() * buttons.length)];
   moves.push(nextMove);
+  setTimeout(() => {
+    document.getElementById(nextMove).style.backgroundColor = "black";
+    setTimeout(() => {
+      document.getElementById(nextMove).style.backgroundColor = nextMove;
+    }, 1200);
+  }, 1200);
   sound = document.getElementById(nextMove + 'Audio');
   sound.play();
   console.log(moves);
@@ -42,6 +48,10 @@ let playGame = () => {
       setTimeout(function() {
         sound = document.getElementById(nextMove + 'Audio');
         sound.play();
+        document.getElementById(nextMove).style.backgroundColor = "pink";
+        setTimeout(() => {
+          document.getElementById(nextMove).style.backgroundColor = nextMove;
+        }, 1200);
       }, 1500);
       counter++;
       document.getElementById('counter').innerHTML++;
@@ -78,6 +88,14 @@ let startStrict = () => {
   nextMove = buttons[Math.floor(Math.random() * buttons.length)];
   moves.push(nextMove);
   sound = document.getElementById(nextMove + 'Audio');
-  sound.play();
+  setTimeout(() => {
+    document.getElementById(nextMove).style.backgroundColor = "black";
+    sound.play();
+    setTimeout(() => {
+      document.getElementById(nextMove).style.backgroundColor = nextMove;
+    }, 1200);
+  }, 1200);
+
+
   console.log(moves);
 };
