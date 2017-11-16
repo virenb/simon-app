@@ -50,6 +50,14 @@ let startGame = () => {
   playGame();
 };
 
+let startStrict = () => {
+  strict = true;
+  document.getElementById('counter').innerHTML++;
+  step = 0;
+  counter++;
+  playGame();
+};
+
 let selectColor = (event) => {
   color = event.target.id;
   sound = document.getElementById(color + 'Audio');
@@ -94,22 +102,6 @@ document.getElementById(green).addEventListener('click', selectColor, false);
 document.getElementById(red).addEventListener('click', selectColor, false);
 document.getElementById(blue).addEventListener('click', selectColor, false);
 document.getElementById(yellow).addEventListener('click', selectColor, false);
-
-let startStrict = () => {
-  strict = true;
-  document.getElementById('startButton').style.display = 'none';
-  document.getElementById('resetButton').style.display = '';
-  document.getElementById('strictButton').disabled = true;
-  nextMove = buttons[Math.floor(Math.random() * buttons.length)];
-  moves.push(nextMove);
-  console.log('Strict moves: ' + moves);
-  setTimeout(function () {
-    changeOpacity(moves);
-  }, 800);
-  setTimeout(function () {
-    changeOpacityBack(moves);
-  }, 1000);
-};
 
 let changeOpacity = (moves) => {
   let i = 0;
