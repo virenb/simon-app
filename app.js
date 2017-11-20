@@ -6,8 +6,9 @@ const buttons = [green, red, blue, yellow];
 let color;
 let nextMove;
 let sound;
-let moves = [];
 let step;
+let winner = false;
+let moves = [];
 let playerMoves = [];
 let strict = false;
 let counter = document.getElementById('counter').innerHTML;
@@ -15,22 +16,25 @@ document.getElementById('resetButton').style.display = 'none';
 
 
 let playGame = () => {
+  checkWin();
+  if (winner === true) {return;}
+  if (winner === false) {
   nextMove = buttons[Math.floor(Math.random() * buttons.length)];
   moves.push(nextMove);
-  console.log(moves);
   setTimeout(function () {
     changeOpacity(moves);
   }, 800);
   setTimeout(function () {
     changeOpacityBack(moves);
   }, 1000);
+  }
 };
 
 let resetGame = () => {
   step = 0;
   moves = [];
   counter = 0;
-  strice = false;
+  strict = false;
   document.getElementById('counter').innerHTML = 0;
   document.getElementById('message').innerHTML = '';
   document.getElementById('startButton').style.display = '';
@@ -38,21 +42,33 @@ let resetGame = () => {
   document.getElementById('strictButton').disabled = false;
 };
 
-
 let startGame = () => {
-  strict = false;
+  document.getElementById('green').style.pointerEvents = 'auto';
+  document.getElementById('red').style.pointerEvents = 'auto';
+  document.getElementById('blue').style.pointerEvents = 'auto';
+  document.getElementById('yellow').style.pointerEvents = 'auto';
   document.getElementById('startButton').style.display = 'none';
   document.getElementById('resetButton').style.display = '';
   document.getElementById('strictButton').disabled = true;
   document.getElementById('counter').innerHTML++;
+  strict = false;
+  winner = false;
   step = 0;
   counter++;
   playGame();
 };
 
 let startStrict = () => {
-  strict = true;
+  document.getElementById('green').style.pointerEvents = 'auto';
+  document.getElementById('red').style.pointerEvents = 'auto';
+  document.getElementById('blue').style.pointerEvents = 'auto';
+  document.getElementById('yellow').style.pointerEvents = 'auto';
   document.getElementById('counter').innerHTML++;
+  document.getElementById('resetButton').style.display = '';
+  document.getElementById('startButton').style.display = 'none';
+  document.getElementById('strictButton').disabled = true;
+  winner = false;
+  strict = true;
   step = 0;
   counter++;
   playGame();
@@ -69,7 +85,8 @@ let selectColor = (event) => {
         document.getElementById('counter').innerHTML++;
         document.getElementById('message').innerHTML = '';
         checkWin();
-        playGame();}
+        playGame();
+      }
         else {
           step++;
         }
@@ -85,23 +102,28 @@ let selectColor = (event) => {
       }, 800);
       setTimeout(function () {
         changeOpacityBack(moves);
+        document.getElementById('message').innerHTML = '';
       }, 1000);
+      step = 0;
     }
   }
 };
 
 let checkWin = () => {
-  if (counter === 20 && step === moves.length - 1) {
-    counter = 0;
-    step = 0;
+  if (counter === 20) {
+    document.getElementById('strictButton').disabled = true;
     document.getElementById('message').innerHTML = 'You win!';
+    document.getElementById('green').style.pointerEvents = 'none';
+    document.getElementById('red').style.pointerEvents = 'none';
+    document.getElementById('blue').style.pointerEvents = 'none';
+    document.getElementById('yellow').style.pointerEvents = 'none';
+    document.getElementById('resetButton').style.display = '';
+    document.getElementById('startButton').style.display = 'none';
+    winner = true;
+    step = 0;
+    counter = 0;
   }
 };
-
-document.getElementById(green).addEventListener('click', selectColor, false);
-document.getElementById(red).addEventListener('click', selectColor, false);
-document.getElementById(blue).addEventListener('click', selectColor, false);
-document.getElementById(yellow).addEventListener('click', selectColor, false);
 
 let changeOpacity = (moves) => {
   let i = 0;
@@ -125,3 +147,9 @@ let changeOpacityBack = (moves) => {
     }
   }, 800);
 };
+
+document.getElementById(green).addEventListener('click', selectColor, false);
+document.getElementById(red).addEventListener('click', selectColor, false);
+document.getElementById(blue).addEventListener('click', selectColor, false);
+document.getElementById(yellow).addEventListener('click', selectColor, false);
+
